@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org/">
+<head th:replace="fragments :: head"></head>
+
+<body class="container">
+
+<nav th:replace="fragments :: navigation-admin"></nav>
+<div class="input-group add-on">
+    <div class="addb">
+        <a href="/developer/add-developer"><button type="button" class="btn btn-primary">Add Developer</button></a>
+    </div>
+</div>
+
+<div>
+    <label>Click on a developer name to edit</label>
+    <ul>
+        <li th:each="developer : ${developers}">
+            <a th:href="'/developer/edit-developer/?id=' + ${developer.id}" th:text="${developer.name}"></a>
+        </li>
+    </ul>
+</div>
+</body>
+</html>

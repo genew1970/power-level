@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org/">
+<head th:replace="fragments :: head"></head>
+
+<body class="container">
+
+<nav th:replace="fragments :: navigation-admin"></nav>
+
+<form method="post" style="..." th:object="${developers}">
+    <table>
+        <tr>
+            <div class="form-group">
+                <td class="input_label">
+                    <label th:for="name">Developer Name:</label>
+                </td>
+
+                <td>
+                    <input th:field="*{name}" />
+                    <div th:errors="*{name}" class="errors"></div>
+                </td>
+            </div>
+        </tr>
+
+        <tr>
+            <div class="form-group">
+                <td class="input_label">
+                    <label th:for="name">Developer Email:</label>
+                </td>
+
+                <td>
+                    <input th:field="*{email}" />
+                    <div th:errors="*{email}" class="errors"></div>
+                </td>
+            </div>
+         </tr>
+
+        <tr>
+            <div class="form-group">
+                <td class="input_label">
+                    <label th:for="name">Developer Phone:</label>
+                </td>
+
+                <td>
+                    <input th:field="*{phone}" />
+                    <div th:errors="*{phone}" class="errors"></div>
+                </td>
+            </div>
+        </tr>
+        <tr>
+            <td></td>
+            <td><button type="submit" class="btn btn-primary">Add Developer</button></td>
+        </tr>
+    </table>
+
+</form>
+</body>
+</html>
