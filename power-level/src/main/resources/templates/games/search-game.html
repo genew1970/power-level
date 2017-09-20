@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org/">
+<head th:replace="fragments :: head"></head>
+
+<body class="container">
+
+<nav th:replace="fragments :: navigation-admin"></nav>
+
+<form method="post" style="...">
+    <table>
+        <tr>
+            <div class="form-group">
+                <td class="input_label">
+                    <label>Game Name Search:</label>
+                </td>
+
+                <td>
+                    <input th:name="${searchTerm}" />
+                </td>
+
+                <td><button type="submit" class="btn btn-primary">Search</button></td>
+            </div>
+        </tr>
+    </table>
+
+</form>
+
+</body>
+</html>

@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org/">
+<head th:replace="fragments :: head"></head>
+
+<body class="container">
+
+<nav th:replace="fragments :: navigation-admin"></nav>
+
+
+<ul>
+    <li th:each="games : ${games}">
+        <a th:href="'/cart/view-game/?id=' + ${games.id}" th:text="${games.name}"></a>
+    </li>
+</ul>
+<a href="/cart/view-cart"><button type="submit" class="btn btn-primary">View Cart</button></a>
+</body>
+</html>

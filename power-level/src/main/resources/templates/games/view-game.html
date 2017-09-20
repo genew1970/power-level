@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org/">
+<head th:replace="fragments :: head"></head>
+
+<body class="container">
+
+<nav th:replace="fragments :: navigation-admin"></nav>
+
+    <table>
+        <tr>
+            <td class="input_label">
+                <label>Name:</label>
+            </td>
+
+            <td th:text="${games.name}"></td>
+        </tr>
+
+        <tr>
+            <td class="input_label">
+                <label>Platform:</label>
+            </td>
+            <td th:text="${platforms}"></td>
+        </tr>
+
+        <tr>
+            <td class="input_label">
+                <label>Players:</label>
+            </td>
+            <td th:text="${games.players}"></td>
+        </tr>
+
+        <tr>
+            <td class="input_label">
+                <label>Developer:</label>
+            </td>
+            <td th:text="${developers}"></td>
+        </tr>
+
+        <tr>
+            <td class="input_label">
+                <label>ESRB Rating:</label>
+            </td>
+            <td th:text="${esrb}"></td>
+        </tr>
+
+        <tr>
+            <td class="input_label">
+                <label>Cost:</label>
+            </td>
+            <td th:text="${cost}"></td>
+        </tr>
+
+        <tr>
+            <td class="input_label">
+                <label>Retail Price:</label>
+            </td>
+            <td th:text="${price}"></td>
+        </tr>
+
+        <tr>
+            <td class="input_label">
+                <label>Quantity:</label>
+            </td>
+            <td th:text="${games.quantity}"></td>
+        </tr>
+
+        <tr>
+            <td class="input_label">
+                <label>Description:</label>
+            </td>
+            <td th:text="${games.description}"></td>
+        </tr>
+
+        <tr>
+            <td class="input_label">
+                <label>Profit Per Unit (%):</label>
+            </td>
+            <td th:text="${profit}"></td>
+        </tr>
+
+
+            <tr>
+                <td>
+                    <th class="button_label">Edit this game?</th>
+                </td>
+
+                <td>
+                    <a th:href="'/games/edit-game/?id=' + ${games.id}"><button type="submit" class="btn btn-primary">Edit Game</button></a>
+                </td>
+            </tr>
+
+    </table>
+
+
+</body>
+</html>

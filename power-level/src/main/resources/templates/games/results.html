@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org/">
+<head th:replace="fragments :: head"></head>
+
+<body class="container">
+
+<nav th:replace="fragments :: navigation-admin"></nav>
+<table>
+    <tr>
+        <td>
+            Game Name
+        </td>
+        <td>
+            Platform
+        </td>
+    </tr>
+    <ul>
+        <tr>
+            <td>
+                <li th:each="result : ${searchterm}">
+                    <a th:href="'/games/view-game/?id=' + ${result.id}" th:text="${result.name}"></a>
+                </li>
+            </td>
+
+
+        </tr>
+    </ul>
+
+</table>
+</body>
+</html>

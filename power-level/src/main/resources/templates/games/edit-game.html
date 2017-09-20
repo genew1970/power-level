@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org/">
+<head th:replace="fragments :: head"></head>
+
+<body class="container">
+
+<nav th:replace="fragments :: navigation-admin"></nav>
+
+<form method="post" style="..." th:object="${games}">
+    <table>
+        <tr>
+        <div class="form-group">
+            <td class="input_label">
+                <label th:for="name">Game Name:</label>
+            </td>
+
+            <td>
+                <input th:field="${game.name}" />
+                <div th:errors="*{name}" class="errors"></div>
+            </td>
+        </div>
+    </tr>
+
+        <tr>
+            <div class="form-group">
+                <td class="input_label">
+                    <label th:for="platforms">Platforms:</label>
+                </td>
+                <td>
+                    <select name="platformsId">
+                        <option th:each="platform : ${platforms}"
+                                th:value="${platform.id}"
+                                th:text="${platform.name}"
+                                th:field="${game.platforms.id}"></option>
+
+                    </select>
+                </td>
+            </div>
+        </tr>
+
+        <tr>
+            <div class="form-group">
+                <td class="input_label">
+                    <label th:for="name">Players:</label>
+                </td>
+
+                <td>
+                    <input th:field="${game.players}" />
+                    <div th:errors="*{players}" class="errors"></div>
+                </td>
+            </div>
+        </tr>
+
+        <tr>
+            <div class="form-group">
+                <td class="input_label">
+                    <label th:for="developers">Developers:</label>
+                </td>
+
+                <td>
+                    <select name="developersId">
+                        <option th:each="developer : ${developers}"
+                                th:value="${developer.id}"
+                                th:text="${developer.name}"
+                                th:field="${game.developers}"></option>
+                    </select>
+                </td>
+            </div>
+        </tr>
+
+        <tr>
+            <div class="form-group">
+                <td class="input_label">
+                    <label th:for="esrb">ESRB Rating</label>
+                </td>
+
+                <td>
+                    <select name="esrbId">
+                        <option th:each="esrb : ${esrb}"
+                                th:value="${esrb.id}"
+                                th:text="${esrb.name}"
+                                th:field="${game.esrb}"></option>
+                    </select>
+                </td>
+            </div>
+        </tr>
+
+        <tr>
+            <div class="form-group">
+                <td class="input_label">
+                    <label th:for="price">Game Cost($):</label>
+                </td>
+
+                <td>
+                    <input th:field="${game.cost}" />
+                    <div th:errors="*{cost}" class="errors"></div>
+                </td>
+            </div>
+        </tr>
+
+        <tr>
+            <div class="form-group">
+                <td class="input_label">
+                    <label th:for="price">Retail Price($):</label>
+                </td>
+
+                <td>
+                    <input th:field="${game.price}" />
+                    <div th:errors="*{price}" class="errors"></div>
+                </td>
+            </div>
+        </tr>
+
+        <tr>
+            <div class="form-group">
+                <td class="input_label">
+                    <label th:for="quantity">Quantity:</label>
+                </td>
+
+                <td>
+                    <input th:field="${game.quantity}" />
+                    <div th:errors="*{quantity}" class="errors"></div>
+                </td>
+            </div>
+        </tr>
+
+        <tr>
+            <div class="form-group">
+                <td class="input_label">
+                    <label th:for="description">Game Description:</label>
+                </td>
+
+                <td>
+                    <textarea th:field="${game.description}" class="desc"/>
+                    <div th:errors="${game.description}" class="errors"></div>
+                </td>
+
+            </div>
+        </tr>
+
+        <tr>
+            <td></td>
+            <td><button type="submit" class="btn btn-primary">Update Game</button></td>
+        </tr>
+    </table>
+
+</form>
+
+
+</body>
+</html>

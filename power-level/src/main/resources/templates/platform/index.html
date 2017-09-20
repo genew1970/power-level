@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org/">
+<head th:replace="fragments :: head"></head>
+
+<body class="container">
+
+<nav th:replace="fragments :: navigation-admin"></nav>
+
+<div class="addb">
+    <a href="/platform/add-platform"><button type="button" class="btn btn-primary">Add platform</button></a>
+</div>
+
+<ul>
+    <ul th:each="platforms : ${platforms}">
+        <li th:text="${platforms.name}"></li>
+    </ul>
+</ul>
+
+
+
+</body>
+</html>
