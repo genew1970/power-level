@@ -30,10 +30,19 @@ import java.util.ArrayList;
 public class AdminController {
 
     // handles the home page in the admin section
-    @RequestMapping(value = "")
+    @RequestMapping(value = "", method = RequestMethod.GET)
     public String index(Model model) {
 
         model.addAttribute("title", "Admin"); 
+        model.addAttribute("username", "Gene");
+
+        return "admin/index";
+    }
+
+    @RequestMapping(value = "", method = RequestMethod.POST)
+    public String login(Model model) {
+
+        model.addAttribute("title", "Admin");
         model.addAttribute("username", "Gene");
 
         return "admin/index";

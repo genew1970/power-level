@@ -34,7 +34,7 @@ public class GamesController {
     @Autowired
     private EsrbDao esrbDao;
 
-    String searchterm = "";
+    String searchterm;
 
     // views the information on one game
     @RequestMapping(value = "view-game", method = RequestMethod.GET)
@@ -190,16 +190,16 @@ public class GamesController {
 
     // search is not fully implemented.  trying to pass variable
     @RequestMapping(value = "search-game", method = RequestMethod.POST)
-    public String searchResult(Model model, @RequestParam("searchTerm") String searchTerm) {
+    public String searchResult(Model model, @RequestParam("searchterm") String searchterm) {
 
         model.addAttribute("title", "Admin");
-        model.addAttribute("searchTerm", searchTerm);
+        model.addAttribute("searchterm", searchterm);
 
-        return "redirect:/games/results/?searchTerm=" + searchTerm;
+        return "redirect:/games/results/" + searchterm;
     }
 
-    @RequestMapping(value = "results", method = RequestMethod.GET)
-    public String listResults(Model model, String searchterm) {
+    @RequestMapping(value = "results/{searchterm}", method = RequestMethod.GET)
+    public String listResults(Model model, @PathVariable String searchterm) {
 
         model.addAttribute("title", "Admin");
         model.addAttribute("results", gamesDao.findByNameContaining(searchterm));

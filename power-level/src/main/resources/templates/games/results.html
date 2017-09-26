@@ -17,7 +17,7 @@
     <ul>
         <tr>
             <td>
-                <li th:each="result : ${searchterm}">
+                <li th:each="result : ${results}">
                     <a th:href="'/games/view-game/?id=' + ${result.id}" th:text="${result.name}"></a>
                 </li>
             </td>
