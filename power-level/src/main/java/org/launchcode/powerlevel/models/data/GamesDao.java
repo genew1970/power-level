@@ -14,6 +14,7 @@ import java.util.List;
 @Repository
 @Transactional
 public interface GamesDao extends CrudRepository<Games, Integer> {
+    // implemented for custom game search
     List<Games> findByNameContaining(String name);
 
 }

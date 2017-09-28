@@ -1,3 +1,4 @@
+/* sets the background color and font color */
 body {
     font-family: sans-serif;
     color: darkblue;
@@ -5,106 +6,114 @@ body {
     background: lightyellow ;
 }
 
+/* aligns input fields */
 input {
     margin-right: 20px;
 }
 
+/* label size and color adjustments */
 label {
     color: darkred;
     padding-left: 80px;
 }
 
+/* sets the border for input fields */
 input {
     border: 2px solid lightblue;
     border-radius: 5px;
 }
 
+/* sets border for drop down menus */
 select {
     border: 2px solid lightblue;
     border-radius: 5px;
 }
 
+/* formatting table data alignment */
 td {
     vertical-align: top;
     padding-top: 20px;
     padding-right: 20px;
 }
 
-.nbt {
-    color: yellow;
-}
-
+/* adjusts the button to add developers/games/platforms */
 .addb {
     margin: 50px;
 }
 
+/* adjust the input label text */
 .input_label {
     text-align: right;
 }
 
+/* error font color adjust */
 .errors {
     color: red;
 }
 
+/* add button alignment */
 .addbutton {
     margin-top:20px;
     padding-left: 20px;
 }
 
-input[type=checkbox] {
-    transform: scale(1.5);
-    margin: 10px;
-}
 
+/* handles the size of the text area for game description */
 .desc {
     width: 500px;
     height: 100px;
 }
 
+/* assigns color to navbar */
 .navbar-default {
 
     background-color: black;
 }
 
+/* label adjustment for buttons */
 .button_label {
     padding-top: 25px;
 }
 
+/* adjust colors of brand and hover in the navbar */
 .navbar-default .navbar-brand,
 .navbar-default .navbar-brand:hover{
     color: yellow;
 }
 
-
-
+/* navbar list item link color change */
 .navbar-default .navbar-nav > li > a {
     color: yellow;
 }
 
+/* navbar hover text color changes from yellow to orange on links */
 .navbar-default .navbar-nav > li > a:hover,
 .navbar-default .navbar-nav > li > a:focus {
     color: orange;
 }
 
+/* navbar hover text color changes from yellow to orange */
 .navbar-default .navbar-nav > .open > a,
 .navbar-default .navbar-nav > .open > a:hover,
 .navbar-default .navbar-nav > .open > a:focus {
     color: orange;
 }
 
+/* dropdown menu background color change on click*/
 .navbar-default .navbar-nav > .open > a,
 .navbar-default .navbar-nav > .open > a:hover,
 .navbar-default .navbar-nav > .open > a:focus {
     background-color: grey;
 }
 
+/* adjusts size of carousel on home page */
 .carousel {
   height: 50%;
   width: 50%;
   position: absolute;
 }
 
-
+/* carousel caption box adjustment */
 .carousel .carousel-caption {
     opacity: 0.5;
     background: black;

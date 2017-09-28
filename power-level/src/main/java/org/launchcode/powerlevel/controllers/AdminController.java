@@ -1,50 +1,27 @@
 package org.launchcode.powerlevel.controllers;
 
-import org.launchcode.powerlevel.models.Developers;
-import org.launchcode.powerlevel.models.Esrb;
-import org.launchcode.powerlevel.models.Games;
-import org.launchcode.powerlevel.models.Platforms;
-import org.launchcode.powerlevel.models.data.DevelopersDao;
-import org.launchcode.powerlevel.models.data.EsrbDao;
+import org.launchcode.powerlevel.WebSecurityConfig;
 import org.launchcode.powerlevel.models.data.GamesDao;
-import org.launchcode.powerlevel.models.data.PlatformsDao;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.Errors;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-
-import javax.validation.Valid;
-import java.util.ArrayList;
 
 /**
- * Created by genew on 7/6/2017.
+ * Created by genew on 6/28/2017.
  */
 
-
 @Controller
-@RequestMapping("admin")
+@RequestMapping("")
 public class AdminController {
-
-    // handles the home page in the admin section
+    // handles the Admin index
     @RequestMapping(value = "", method = RequestMethod.GET)
     public String index(Model model) {
 
-        model.addAttribute("title", "Admin"); 
-        model.addAttribute("username", "Gene");
-
-        return "admin/index";
+        return "index";
     }
 
-    @RequestMapping(value = "", method = RequestMethod.POST)
-    public String login(Model model) {
-
-        model.addAttribute("title", "Admin");
-        model.addAttribute("username", "Gene");
-
-        return "admin/index";
-    }
 }

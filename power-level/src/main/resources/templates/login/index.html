@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org/">
+<head th:replace="fragments :: head"></head>
+<body class="container" style="padding-top: 200px;">
+
+<!-- Login screen connected through Spring Security -->
+<center><h1>Power Level - Login</h1></center>
+<center>
+
+<form method="post">
+    <table>
+
+        <tr>
+            <td>
+                <div><label>User Name :</label></div>
+            </td>
+            <td>
+                <input type="text" name="username"/>
+            </td>
+        </tr>
+
+        <tr>
+            <td>
+                <div>
+                    <label>Password: </label>
+                </div>
+            </td>
+
+            <td>
+                <input type="password" name="password"/>
+            </td>
+        </tr>
+
+        <tr>
+            <td></td>
+            <td>
+                <button type="submit" class="btn btn-primary">Login</button>
+            </td>
+        </tr>
+    </table>
+</form>
+</center>
+
+</body>
+</html>

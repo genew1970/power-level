@@ -13,6 +13,8 @@ import java.util.Locale;
  * Created by genew on 6/28/2017.
  */
 
+// class to handle games with appropriate fields gained from user input using validation
+    // keeps the id of the other repositories for efficient storage
 @Entity
 public class Games{
     @Id

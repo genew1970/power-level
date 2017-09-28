@@ -12,23 +12,27 @@ import org.springframework.stereotype.Controller;
 @Configuration
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
-    @Override
+    // temporary method to allow users to be stored in memory instead of database
+    @Autowired
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.inMemoryAuthentication()
                 .withUser("gene").password("ethan").roles("USER").and()
                 .withUser("admin").password("admin").roles("ADMIN");
     }
 
+    // sets up the permissions for roles of users
     @Override
     protected void configure(HttpSecurity http) throws Exception {
             http.csrf().disable()
                 .authorizeRequests()
-                    .antMatchers("/", "/resources/static/css/**").permitAll()
-                    .antMatchers("/admin/**").hasAnyRole("ADMIN")
+                    .antMatchers("/css/**", "/js/**", "/images/**").permitAll()
+                    .antMatchers("/login/").permitAll()
+                    .antMatchers("**/**").hasAnyRole("ADMIN")
                     .anyRequest().authenticated()
                 .and()
                 .formLogin()
-                    .loginPage("/")
+                    .loginPage("/login")
+                    .defaultSuccessUrl("/")
                     .permitAll()
                     .and()
                 .logout()

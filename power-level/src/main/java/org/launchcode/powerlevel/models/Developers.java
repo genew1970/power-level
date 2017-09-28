@@ -15,6 +15,7 @@ import java.util.List;
  * Created by genew on 6/28/2017.
  */
 
+// class to handle developers with appropriate fields gained from user input
 @Entity
 public class Developers {
 

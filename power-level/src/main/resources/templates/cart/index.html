@@ -6,7 +6,7 @@
 
 <nav th:replace="fragments :: navigation-admin"></nav>
 
-
+<!-- lists each game in the cart...not yet implemented -->
 <ul>
     <li th:each="games : ${games}">
         <a th:href="'/cart/view-game/?id=' + ${games.id}" th:text="${games.name}"></a>

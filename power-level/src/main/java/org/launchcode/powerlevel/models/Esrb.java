@@ -10,6 +10,8 @@ import java.util.List;
  * Created by genew on 7/11/2017.
  */
 
+// class to handle developers with appropriate fields
+    // does not allow the user to update the information because the ratings should not change much over the years
 @Entity
 public class Esrb {
 

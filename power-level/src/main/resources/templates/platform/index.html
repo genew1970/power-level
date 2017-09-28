@@ -10,6 +10,7 @@
     <a href="/platform/add-platform"><button type="button" class="btn btn-primary">Add platform</button></a>
 </div>
 
+<!-- lists the platforms...links to platforms will eventually allow for editing -->
 <ul>
     <ul th:each="platforms : ${platforms}">
         <li th:text="${platforms.name}"></li>
