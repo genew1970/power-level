@@ -56,6 +56,6 @@ public class PlatformController {
         }
 
         platformsDao.save(platforms);
-        return "redirect:";
+        return "redirect:/platform";
     }
 }

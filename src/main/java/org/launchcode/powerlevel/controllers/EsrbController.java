@@ -47,6 +47,6 @@ public class EsrbController {
         }
 
         esrbDao.save(esrb);
-        return "redirect:";
+        return "redirect:/esrb/add";
     }
 }

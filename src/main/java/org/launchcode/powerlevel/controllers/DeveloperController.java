@@ -67,7 +67,7 @@ public class DeveloperController {
         }
 
         developersDao.save(developers);
-        return "redirect:";
+        return "redirect:/developer";
     }
 
     // handles the edit-developer page, displaying the indexed value from the database
