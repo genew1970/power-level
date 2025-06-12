@@ -81,7 +81,7 @@ public class GamesController {
         model.addAttribute("platforms", platformsDao.findAll());
         model.addAttribute("esrb", esrbDao.findAll());
 
-        return "games/edit-game/?id=" + games.getId();
+        return "redirect:/games/edit-game/?id=" + games.getId();
     }
 
     // handles the add-game page
