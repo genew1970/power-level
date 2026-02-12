@@ -6,12 +6,50 @@
 
 <nav th:replace="fragments :: navigation-admin"></nav>
 
+<h3>Shopping Cart</h3>
 
-<ul>
-    <li th:each="games : ${games}">
-        <a th:href="'/cart/view-game/?id=' + ${games.id}" th:text="${games.name}"></a>
-    </li>
-</ul>
-<a href="/cart/view-cart"><button type="submit" class="btn btn-primary">View Cart</button></a>
+<div th:if="${#lists.isEmpty(cartItems)}">
+    <p class="text-info">Your cart is empty.</p>
+    <a href="/games/list-games" class="btn btn-primary">Browse Games</a>
+</div>
+
+<div th:if="${!#lists.isEmpty(cartItems)}">
+    <table class="table table-striped table-hover">
+        <thead>
+            <tr>
+                <th>Game</th>
+                <th>Price</th>
+                <th>Quantity</th>
+                <th>Subtotal</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="item : ${cartItems}">
+                <td th:text="${item.game.name}"></td>
+                <td th:text="'$' + ${item.game.price}"></td>
+                <td th:text="${item.quantity}"></td>
+                <td th:text="'$' + ${item.subtotal}"></td>
+                <td>
+                    <form method="post" th:action="@{/cart/remove}" style="display:inline">
+                        <input type="hidden" name="cartItemId" th:value="${item.id}" />
+                        <button type="submit" class="btn btn-sm btn-danger">
+                            <span class="glyphicon glyphicon-trash"></span> Remove
+                        </button>
+                    </form>
+                </td>
+            </tr>
+        </tbody>
+        <tfoot>
+            <tr>
+                <td colspan="3" class="text-right"><strong>Total:</strong></td>
+                <td><strong th:text="'$' + ${cartTotal}"></strong></td>
+                <td></td>
+            </tr>
+        </tfoot>
+    </table>
+    <a href="/games/list-games" class="btn btn-default">Continue Shopping</a>
+</div>
+
 </body>
 </html>

@@ -15,4 +15,5 @@ import java.util.List;
 @Transactional
 public interface GamesDao extends CrudRepository<Games, Integer> {
     List<Games> findByName(String gameName);
+    List<Games> findByNameContainingIgnoreCase(String searchTerm);
 }

@@ -1,18 +1,13 @@
 package org.launchcode.powerlevel.controllers;
 
-import org.launchcode.powerlevel.models.Developers;
-import org.launchcode.powerlevel.models.Esrb;
 import org.launchcode.powerlevel.models.Games;
-import org.launchcode.powerlevel.models.Platforms;
-import org.launchcode.powerlevel.models.data.DevelopersDao;
-import org.launchcode.powerlevel.models.data.EsrbDao;
-import org.launchcode.powerlevel.models.data.GamesDao;
-import org.launchcode.powerlevel.models.data.PlatformsDao;
+import org.launchcode.powerlevel.services.DeveloperService;
+import org.launchcode.powerlevel.services.EsrbService;
+import org.launchcode.powerlevel.services.GameService;
+import org.launchcode.powerlevel.services.PlatformService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.CommandLineRunner;
-import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
@@ -22,49 +17,41 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.validation.Valid;
-import java.text.DecimalFormat;
-import java.text.NumberFormat;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
-
-/**
- * Created by genew on 7/10/2017.
- */
 
 @Controller
 @RequestMapping("games")
 public class GamesController {
-    // wiring the databases to the appropriate class objects
-    @Autowired
-    private GamesDao gamesDao;
+
+    private static final Logger logger = LoggerFactory.getLogger(GamesController.class);
 
     @Autowired
-    private PlatformsDao platformsDao;
+    private GameService gameService;
 
     @Autowired
-    private DevelopersDao developersDao;
+    private PlatformService platformService;
 
     @Autowired
-    private EsrbDao esrbDao;
+    private DeveloperService developerService;
+
+    @Autowired
+    private EsrbService esrbService;
 
     // views the information on one game
     @RequestMapping(value = "view-game", method = RequestMethod.GET)
     public String index(Model model, int id) {
 
-        Games games = gamesDao.findOne(id);
-
-        // formats the percentage     .decFormat formats decimals to two places
-        double profit = ((games.getPrice() - games.getCost())/games.getPrice()) * 100;
+        Games games = gameService.findById(id);
+        double profit = gameService.calculateProfit(games);
 
         model.addAttribute("title", "Power Level - Admin");
         model.addAttribute("games", games);
-        model.addAttribute("cost", games.decFormat(games.getCost()));
-        model.addAttribute("price", games.decFormat(games.getPrice()));
+        model.addAttribute("cost", gameService.formatDecimal(games.getCost()));
+        model.addAttribute("price", gameService.formatDecimal(games.getPrice()));
         model.addAttribute("platforms", games.getPlatforms().getName());
         model.addAttribute("developers", games.getDevelopers().getName());
         model.addAttribute("esrb", games.getEsrb().getName());
-        model.addAttribute("profit", games.decFormat(profit));
+        model.addAttribute("profit", gameService.formatDecimal(profit));
 
         return "games/view-game";
     }
@@ -73,13 +60,13 @@ public class GamesController {
     @RequestMapping(value = "view-game", method = RequestMethod.POST)
     public String addAnother(Model model, int id, Games games) {
 
-        games = gamesDao.findOne(id);
+        games = gameService.findById(id);
 
         model.addAttribute("title", "Admin");
         model.addAttribute(new Games());
-        model.addAttribute("developers", developersDao.findAll());
-        model.addAttribute("platforms", platformsDao.findAll());
-        model.addAttribute("esrb", esrbDao.findAll());
+        model.addAttribute("developers", developerService.findAll());
+        model.addAttribute("platforms", platformService.findAll());
+        model.addAttribute("esrb", esrbService.findAll());
 
         return "redirect:/games/edit-game/?id=" + games.getId();
     }
@@ -90,9 +77,9 @@ public class GamesController {
 
         model.addAttribute("title", "Admin");
         model.addAttribute(new Games());
-        model.addAttribute("developers", developersDao.findAll());
-        model.addAttribute("platforms", platformsDao.findAll());
-        model.addAttribute("esrb", esrbDao.findAll());
+        model.addAttribute("developers", developerService.findAll());
+        model.addAttribute("platforms", platformService.findAll());
+        model.addAttribute("esrb", esrbService.findAll());
 
         return "games/add-game";
     }
@@ -103,27 +90,23 @@ public class GamesController {
                           @RequestParam int platformsId, @RequestParam int developersId,
                           @RequestParam int esrbId){
 
-        // displays error messages
         if(errors.hasErrors()){
-            model.addAttribute("platforms", platformsDao.findAll());
-            model.addAttribute("developers", developersDao.findAll());
-            model.addAttribute("esrb", esrbDao.findAll());
+            model.addAttribute("platforms", platformService.findAll());
+            model.addAttribute("developers", developerService.findAll());
+            model.addAttribute("esrb", esrbService.findAll());
             model.addAttribute("title", "Admin");
-
             return "games/add-game";
         }
 
-        games.setDevelopers(developersDao.findOne(developersId));
-        games.setPlatforms(platformsDao.findOne(platformsId));
-        games.setEsrb(esrbDao.findOne(esrbId));
-        gamesDao.save(games);
+        gameService.saveWithRelations(games, platformsId, developersId, esrbId);
+        logger.info("New game added: {}", games.getName());
 
-        model.addAttribute("platforms", platformsDao.findAll());
-        model.addAttribute("developers", developersDao.findAll());
-        model.addAttribute("esrb", esrbDao.findAll());
+        model.addAttribute("platforms", platformService.findAll());
+        model.addAttribute("developers", developerService.findAll());
+        model.addAttribute("esrb", esrbService.findAll());
         model.addAttribute("title", "Admin");
 
-        return"games/list-games";
+        return "games/list-games";
     }
 
     // list-games lists links to individual games
@@ -132,7 +115,7 @@ public class GamesController {
 
         model.addAttribute(new Games());
         model.addAttribute("title", "Admin");
-        model.addAttribute("games", gamesDao.findAll());
+        model.addAttribute("games", gameService.findAll());
 
         return "games/list-games";
     }
@@ -140,12 +123,12 @@ public class GamesController {
     // displays the individual game by taking in the id for the game
     @RequestMapping(value = "list-games", method = RequestMethod.POST)
     public String listGame(Model model, int id, Games games){
-        Games theGame = gamesDao.findOne(id);
+        Games theGame = gameService.findById(id);
 
         model.addAttribute("game", theGame);
         model.addAttribute("platforms", games.getPlatforms());
         model.addAttribute("developers", games.getDevelopers());
-        model.addAttribute("esrb", esrbDao.findAll());
+        model.addAttribute("esrb", esrbService.findAll());
         model.addAttribute("title", "Admin");
         model.addAttribute(new Games());
 
@@ -155,12 +138,12 @@ public class GamesController {
     // displays the information within each field to edit the game
     @RequestMapping(value = "edit-game", method = RequestMethod.GET)
     public String editGame(Model model, int id, Games games) {
-        Games theGame = gamesDao.findOne(id);
+        Games theGame = gameService.findById(id);
 
         model.addAttribute("game", theGame);
-        model.addAttribute("platforms", platformsDao.findAll());
-        model.addAttribute("developers", developersDao.findAll());
-        model.addAttribute("esrb", esrbDao.findAll());
+        model.addAttribute("platforms", platformService.findAll());
+        model.addAttribute("developers", developerService.findAll());
+        model.addAttribute("esrb", esrbService.findAll());
         model.addAttribute("title", "Admin");
         model.addAttribute(new Games());
 
@@ -173,24 +156,14 @@ public class GamesController {
                              @RequestParam int platformsId,
                              @RequestParam int developersId,
                              @RequestParam int esrbId) {
-        Games theGame = gamesDao.findOne(id);
-        theGame.setPrice(games.getPrice());
-        theGame.setCost(games.getCost());
-        theGame.setPlayers(games.getPlayers());
-        theGame.setName(games.getName());
-        theGame.setQuantity(games.getQuantity());
-        theGame.setDescription(games.getDescription());
 
-        theGame.setPlatforms(platformsDao.findOne(platformsId));
-        theGame.setDevelopers(developersDao.findOne(developersId));
-        theGame.setEsrb(esrbDao.findOne(esrbId));
-
-        gamesDao.save(theGame);
+        gameService.updateGame(id, games, platformsId, developersId, esrbId);
+        logger.info("Game updated with id: {}", id);
 
         return "redirect:/games/list-games";
     }
 
-    // search is not fully implemented
+    // search games by name
     @RequestMapping(value = "search-game", method = RequestMethod.GET)
     public String searchGame(Model model) {
 
@@ -200,16 +173,15 @@ public class GamesController {
         return "games/search-game";
     }
 
-    // search is not fully implemented
+    // search results
     @RequestMapping(value = "search-game", method = RequestMethod.POST)
-    public String resultGame(Model model) {
+    public String resultGame(Model model, @RequestParam String searchTerm) {
 
-        Iterable<Games> theGame = gamesDao.findAll();
-        /*for(Games game : theGame){
-            if(game.getName().equals(searchTerm))
-        }*/
+        List<Games> results = gameService.searchByNameContaining(searchTerm);
 
         model.addAttribute("title", "Admin");
+        model.addAttribute("games", results);
+        model.addAttribute("searchTerm", searchTerm);
         model.addAttribute(new Games());
 
         return "games/search-game";

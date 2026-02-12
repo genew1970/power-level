@@ -1,8 +1,9 @@
 package org.launchcode.powerlevel.controllers;
 
-import org.hibernate.Session;
 import org.launchcode.powerlevel.models.Developers;
-import org.launchcode.powerlevel.models.data.DevelopersDao;
+import org.launchcode.powerlevel.services.DeveloperService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -11,28 +12,23 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 import javax.validation.Valid;
-
-
-/**
- * Created by genew on 7/8/2017.
- */
 
 @Controller
 @RequestMapping("developer")
 public class DeveloperController {
 
-    @Autowired
-    DevelopersDao developersDao;
+    private static final Logger logger = LoggerFactory.getLogger(DeveloperController.class);
 
-    // handles the edit-game page
+    @Autowired
+    private DeveloperService developerService;
+
+    // handles the developer index page
     @RequestMapping(value="", method = RequestMethod.GET)
     public String index(Model model) {
 
         model.addAttribute("title", "Admin");
-        model.addAttribute("developers", developersDao.findAll());
+        model.addAttribute("developers", developerService.findAll());
 
         return "developer/index";
     }
@@ -59,14 +55,13 @@ public class DeveloperController {
     @RequestMapping (value = "add-developer", method = RequestMethod.POST)
     public String add(Model model, @ModelAttribute @Valid Developers developers, Errors errors){
 
-        // handles errors on the page
         if (errors.hasErrors()){
             model.addAttribute("title","Admin");
-
             return "developer/add-developer";
         }
 
-        developersDao.save(developers);
+        developerService.save(developers);
+        logger.info("New developer added: {}", developers.getName());
         return "redirect:/developer";
     }
 
@@ -74,7 +69,7 @@ public class DeveloperController {
     @RequestMapping (value = "edit-developer", method = RequestMethod.GET)
     public String editDevelopers(Model model, int id) {
 
-        Developers developers = developersDao.findOne(id);
+        Developers developers = developerService.findById(id);
 
         model.addAttribute("title", "Admin");
         model.addAttribute("developers", developers);
@@ -87,23 +82,17 @@ public class DeveloperController {
     public String replaceDeveloper(Model model, int id, @ModelAttribute @Valid Developers developers,
                                    Errors errors) {
 
-        // handles the errors in the input fields
         if (errors.hasErrors()) {
             model.addAttribute("title","Admin");
             return "developer/edit-developer";
         }
 
+        developerService.updateDeveloper(id, developers);
+        logger.info("Developer updated with id: {}", id);
+
         model.addAttribute("title","Admin");
-        model.addAttribute("developers", developersDao.findAll());
-
-        Developers theDeveloper = developersDao.findOne(id);
-        theDeveloper.setName(developers.getName());
-        theDeveloper.setEmail(developers.getEmail());
-        theDeveloper.setPhone(developers.getPhone());
-
-        developersDao.save(theDeveloper);
+        model.addAttribute("developers", developerService.findAll());
 
         return "developer/index";
-
     }
 }

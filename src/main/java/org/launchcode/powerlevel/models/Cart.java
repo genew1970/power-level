@@ -1,31 +1,39 @@
 package org.launchcode.powerlevel.models;
 
-import java.util.ArrayList;
-import java.util.List;
+import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 
-/**
- * Created by genew on 7/23/2017.
- */
+@Entity
 public class Cart {
 
+    @Id
+    @GeneratedValue
     private int id;
+
+    @ManyToOne
+    private Games game;
+
+    @NotNull
     private int quantity;
 
-    public Cart(){
-
+    public Cart() {
     }
 
-    public Cart(int id) {
-        this.id = id;
-
+    public Cart(Games game, int quantity) {
+        this.game = game;
+        this.quantity = quantity;
     }
 
     public int getId() {
         return id;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public Games getGame() {
+        return game;
+    }
+
+    public void setGame(Games game) {
+        this.game = game;
     }
 
     public int getQuantity() {
@@ -34,5 +42,12 @@ public class Cart {
 
     public void setQuantity(int quantity) {
         this.quantity = quantity;
+    }
+
+    public double getSubtotal() {
+        if (game != null) {
+            return game.getPrice() * quantity;
+        }
+        return 0;
     }
 }
