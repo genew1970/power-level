@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org/">
+<head th:replace="fragments :: head"></head>
+
+<body class="container">
+
+<nav th:replace="fragments :: navigation-admin"></nav>
+
+<div class="row">
+    <div class="col-md-8 col-md-offset-2">
+        <div class="panel panel-danger">
+            <div class="panel-heading">
+                <h3 class="panel-title" th:text="${title}">Error</h3>
+            </div>
+            <div class="panel-body">
+                <p th:text="${errorMessage}">An error occurred.</p>
+                <a href="/admin" class="btn btn-primary">Return to Home</a>
+                <a href="javascript:history.back()" class="btn btn-default">Go Back</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

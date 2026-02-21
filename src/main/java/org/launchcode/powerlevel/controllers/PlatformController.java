@@ -1,9 +1,9 @@
 package org.launchcode.powerlevel.controllers;
 
-import org.launchcode.powerlevel.models.Developers;
 import org.launchcode.powerlevel.models.Platforms;
-import org.launchcode.powerlevel.models.data.GamesDao;
-import org.launchcode.powerlevel.models.data.PlatformsDao;
+import org.launchcode.powerlevel.services.PlatformService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -14,23 +14,21 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import javax.validation.Valid;
 
-/**
- * Created by genew on 7/8/2017.
- */
-
 @Controller
 @RequestMapping(value="platform")
 public class PlatformController {
 
-    @Autowired
-    private PlatformsDao platformsDao;
+    private static final Logger logger = LoggerFactory.getLogger(PlatformController.class);
 
-    // handles the  platform index page
+    @Autowired
+    private PlatformService platformService;
+
+    // handles the platform index page
     @RequestMapping(value="", method = RequestMethod.GET)
     public String index(Model model) {
 
         model.addAttribute("title", "Platforms");
-        model.addAttribute("platforms", platformsDao.findAll());
+        model.addAttribute("platforms", platformService.findAll());
 
         return "platform/index";
     }
@@ -51,11 +49,11 @@ public class PlatformController {
 
         if (errors.hasErrors()){
             model.addAttribute("title","Admin");
-
             return "platform/add-platform";
         }
 
-        platformsDao.save(platforms);
+        platformService.save(platforms);
+        logger.info("New platform added: {}", platforms.getName());
         return "redirect:/platform";
     }
 }
